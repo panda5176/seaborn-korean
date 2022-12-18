@@ -1,7 +1,7 @@
 # [seaborn-korean](https://panda5176.github.io/seaborn-korean)
 **[https://panda5176.github.io/seaborn-korean](https://panda5176.github.io/seaborn-korean)**
 
-이곳은 **[시본(seaborn)](https://github.com/mwaskom/seaborn) 문서 비공식 한국어 번역 페이지**입니다.
+이곳은 **[씨본(seaborn)](https://github.com/mwaskom/seaborn) 문서 비공식 한국어 번역 페이지**입니다.
 
 [공식 seaborn 문서](https://seaborn.pydata.org/)를 영한번역해 한국어 사용자들의 이해를 돕고자 하는 것이 페이지의 목적입니다. 비영리 목적의 자유로운 번역과 배포를 추구하며, [seaborn 공식 라이선스](https://github.com/mwaskom/seaborn/blob/master/LICENSE.md)와 같은 [BSD 3-Clause "New" or "Revised" License](https://github.com/panda5176/seaborn-korean/blob/main/LICENSE)를 따르고 있습니다.
 
