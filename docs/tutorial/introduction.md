@@ -66,9 +66,66 @@ sns.relplot(
 
 ## 통계 그래픽을 위한 고수준 API
 
+데이터를 시각화하기 위해 보편적으로 최고의 방법은 없습니다. 다른 질문은 다른 플롯으로 가장 잘 대답할 수 있습니다. 씨본은 일관적인 데이터셋 지향 API를 이용해 다른 시각 표현 사이를 쉽게 전환할 수 있게 해줍니다.
+
+함수 [`relplot()`](https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)은 많은 여러 통계적 *관계(relationships)*를 시각화하도록 설계되었기 때문에 그렇게 이름지어졌습니다. 산점도(scatter plot)가 종종 효과적이더라도, 한 변수가 시간의 척도를 나타낸다면 관계는 선으로 더 잘 표현됩니다. [`relplot()`](https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot) 함수는 여러분이 쉽게 대체 표현으로 전환할 수 있도록 해주는 편리한 `kind` 매개변수(parameter)를 가지고 있습니다:
+
+```python
+dots = sns.load_dataset("dots")
+sns.relplot(
+    data=dots, kind="line",
+    x="time", y="firing_rate", col="align",
+    hue="choice", size="coherence", style="choice",
+    facet_kws=dict(sharex=False),
+)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_11_0.png)
+
+어떻게 `size`와 `style` 매개변수가 산점도와 선 그래프(line plot)에서 사용되는지 주목하세요, 하지만 이들은 두 시각화에 다른 영향을 미칩니다: 산점도의 마커(marker) 영역과 기호(symbol) 대 선 그래프의 선 굵기와 점표(dashing). 우리는 이것들을 자세하게 생각해둘 필요가 없었단 점은, 플롯의 전체 구조와 우리가 전달하고자 하는 정보에 집중하게 해준다는 것입니다.
+
 ### 통계 추정
 
+종종, 우리는 한 변수의 *평균(average)*값을 다른 변수의 함수로 보는 것에 관심이 있습니다. 많은 씨본 함수들이 이러한 질문들에 대답하는 데 필요한 통계 추정(statistical estimation)을 자동적으로 수행해줄 것입니다:
+
+```python
+fmri = sns.load_dataset("fmri")
+sns.relplot(
+    data=fmri, kind="line",
+    x="timepoint", y="signal", col="region",
+    hue="event", style="event",
+)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_13_0.png)
+
+통계값이 추정될 때, 씨본은 신뢰 구간(confidence intervals)을 계산하기 위해 부트스트랩(bootstrapping)을 사용하고, 추정의 불확실성을 표현하는 오차 막대(error bars)를 그릴 것입니다.
+
+씨본의 통계 추정은 기술 통계(descriptive statistics)를 넘어섭니다. 예를 들어, [`lmplot()`](https://seaborn.pydata.org/generated/seaborn.lmplot.html#seaborn.lmplot)을 사용해 선형 회귀(linear regression) 모델(과 그 불확실성)을 포함하여 산점도를 향상시킬 수 있습니다:
+
+```python
+sns.lmplot(data=tips, x="total_bill", y="tip", col="time", hue="smoker")
+```
+
+![](https://seaborn.pydata.org/_images/introduction_15_0.png)
+
 ### 분포 표현
+
+통계 분석은 여러분 데이터셋의 변수들의 분포(distribution)에 대한 지식을 필요로 합니다. 씨본 함수 [`displot()`](https://seaborn.pydata.org/generated/seaborn.displot.html#seaborn.displot)은 분포를 시각화하기 위한 다양한 접근법을 지원합니다. 이는 히스토그램(histograms)처럼 고전적인 기법이나 커널 밀도 추정(kernel density estimation)처럼 계산 집약적인(computationally-intensive) 접근법을 포함합니다:
+
+```python
+sns.displot(data=tips, x="total_bill", col="time", kde=True)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_17_0.png)
+
+또한 씨본은 데이터의 경험적 누적 분포 함수(empirical cumulative distribution function)의 계산과 플로팅처럼, 강력하지만 덜 친숙한 기법을 홍보하려고 시도합니다:
+
+```python
+sns.displot(data=tips, kind="ecdf", x="total_bill", col="time", hue="smoker", rug=True)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_19_0.png)
 
 ### 범주형 데이터 플롯
 
