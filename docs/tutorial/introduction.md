@@ -129,9 +129,63 @@ sns.displot(data=tips, kind="ecdf", x="total_bill", col="time", hue="smoker", ru
 
 ### 범주형 데이터 플롯
 
-## 복잡한 데이터셋의 다변량 시각
+씨본의 여러 특별한 플롯 유형은 범주형(categorical) 데이터를 시각화하는 데에 중점을 둡니다. 그들은 [`catplot()`](https://seaborn.pydata.org/generated/seaborn.catplot.html#seaborn.catplot)을 통해 접근할 수 있습니다. 이 플롯은 여러 수준의 자세한 정도를 제공합니다. 가장 자세한 수준에서, 여러분은 "군집(swarm)" 플롯을 그려서 모든 관측값을 보기를 희망할 것입니다: 군집 플롯은 범주 축을 따라서 점들의 위치를 조정해 겹치지 않도록 한 산점도입니다:
+
+```python
+sns.catplot(data=tips, kind="swarm", x="day", y="total_bill", hue="smoker")
+```
+
+![](https://seaborn.pydata.org/_images/introduction_21_0.png)
+
+혹은, 점들이 샘플링되는 기본 분포(underlying distribution)를 표현하기 위해 커널 밀도 추정을 사용하실 수도 있습니다:
+
+```python
+sns.catplot(data=tips, kind="violin", x="day", y="total_bill", hue="smoker", split=True)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_23_0.png)
+
+또는 중첩된 범주 내에서 평균값과 신뢰 구간만 보여주실 수도 있습니다:
+
+```python
+sns.catplot(data=tips, kind="bar", x="day", y="total_bill", hue="smoker")
+```
+
+![](https://seaborn.pydata.org/_images/introduction_25_0.png)
+
+## 복잡한 데이터셋의 다변량 관점
+
+일부 씨본 함수는 데이터셋의 유익한 요약들을 빠르게 제공하기 위해 여러 종류의 플롯을 결합합니다. 하나는, [`jointplot()`](https://seaborn.pydata.org/generated/seaborn.jointplot.html#seaborn.jointplot)로, 단일 관계에 초점을 맞춥니다. 이는 각 변수의 주변 분포(marginal distribution)와 함께 두 변수의 결합 분포(joint distribution)를 플로팅합니다.
+
+```python
+penguins = sns.load_dataset("penguins")
+sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
+```
+
+![](https://seaborn.pydata.org/_images/introduction_27_0.png)
+
+다른 하나는, [`pairplot()`](https://seaborn.pydata.org/generated/seaborn.pairplot.html#seaborn.pairplot)로, 더 넓은 관점을 취합니다: 이는 각 변수의 모든 쌍별 관계에 대한 결합과 주변 분포를 각각 보여줍니다:
+
+```python
+sns.pairplot(data=penguins, hue="species")
+```
+
+![](https://seaborn.pydata.org/_images/introduction_29_0.png)
 
 ### 피겨 구축을 위한 저수준 도구
+
+이 도구들은 [축 수준(axes-level)](https://seaborn.pydata.org/tutorial/function_overview.html) 플로팅 함수를 피겨의 배열을 관리하는 객체와 결합하여, 데이터셋의 구조를 [축의 격자(grid of axes)](https://seaborn.pydata.org/tutorial/axis_grids.html)에 연결하면서 작동합니다. 두 요소 모두 공개(public) API의 일부로, 여러분은 코드 몇 줄 더 만으로 복잡한 피겨를 만들게끔 직접 사용하실 수 있습니다.
+
+```python
+g = sns.PairGrid(penguins, hue="species", corner=True)
+g.map_lower(sns.kdeplot, hue=None, levels=5, color=".2")
+g.map_lower(sns.scatterplot, marker="+")
+g.map_diag(sns.histplot, element="step", linewidth=0, kde=True)
+g.add_legend(frameon=True)
+g.legend.set_bbox_to_anchor((.61, .6))
+```
+
+![](https://seaborn.pydata.org/_images/introduction_31_0.png)
 
 ## 완고한 기본값과 유연한 사용자 정의
 
