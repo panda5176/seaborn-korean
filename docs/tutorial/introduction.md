@@ -4,7 +4,7 @@
 
 씨본(seaborn)은 파이썬(Python)에서 통계 그래픽(statistical graphic)을 만들기 위한 라이브러리(library)입니다. 씨본은 [맷플롯립(matplotlib)](https://matplotlib.org/) 위에 구축되었고, [판다스(pandas)](https://pandas.pydata.org/) 자료 구조(data structures)와 밀접하게 통합되어 있습니다.
 
-씨본은 여러분이 데이터를 탐색하고 이해하는 것을 도와줍니다. 씨본의 플로팅 함수(plotting functions)는 전체 데이터셋(dataset)을 담고 있는 데이터프레임(dataframes)과 배열(arrays) 위에서 작동하며, 유익한 플롯(plots)을 만들어내기 위해 필요한 의미론적 매핑(semantic mapping)과 통계 집계(statistical aggregation)를 내부적으로 수행합니다. 씨본의 데이터셋 중심의, 선언적인 API(declarative API)는 여러분이 플롯을 그리는 법에 대한 세부 사항보다는, 플롯의 다양한 구성요소가 의미하는 바에 집중하도록 해줍니다.
+씨본은 여러분이 데이터를 탐색하고 이해하는 것을 도와줍니다. 씨본의 플로팅 함수(plotting functions)는 전체 데이터셋(dataset)을 담고 있는 데이터프레임(dataframes)과 배열(arrays) 위에서 작동하며, 유익한 플롯(plots)을 만들어내기 위해 필요한 시맨틱 매핑(semantic mapping)과 통계 집계(statistical aggregation)를 내부적으로 수행합니다. 씨본의 데이터셋 중심의, 선언적인 API(declarative API)는 여러분이 플롯을 그리는 법에 대한 세부 사항보다는, 플롯의 다양한 구성요소가 의미하는 바에 집중하도록 해줍니다.
 
 여기 씨본이 할 수 있는 것에 대한 예제가 있습니다:
 
@@ -189,6 +189,45 @@ g.legend.set_bbox_to_anchor((.61, .6))
 
 ## 완고한 기본값과 유연한 사용자 정의
 
+씨본은 단일 함수 호출로 완전한 그래픽을 만듭니다: 가능하다면, 함수가 플롯의 시맨틱 매핑을 설명하는 유익한 축 레이블(labels)와 범례(legends)를 자동으로 추가할 것입니다.
+
+많은 경우에, 씨본은 데이터의 특성에 기반해 매개변수 기본값도 고를 것입니다. 예를 들어, 지금까지 살펴본 [색상 매핑](https://seaborn.pydata.org/tutorial/color_palettes.html)은 `hue`에 할당한 범주형 변수들의 여러 수준을 표현하기 위해 뚜렷한 색조들(파랑, 주황, 때로는 초록)을 사용했습니다. 수치형 변수를 매핑할 때, 어떤 함수들은 연속적인 기울기로 바뀔 것입니다:
+
+```python
+sns.relplot(
+    data=penguins,
+    x="bill_length_mm", y="bill_depth_mm", hue="body_mass_g"
+)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_33_0.png)
+
+여러분이 작업을 공유하거나 발표할 준비가 되어있다면, 아마도 기본값으로 이루는 것 이상으로 피겨를 다듬고 싶으실 것입니다. 씨본은 여러 수준의 사용자 정의를 허용합니다. 사용자 정의는 모든 피겨에 적용할 여러 내장 [테마](https://seaborn.pydata.org/tutorial/aesthetics.html)를 정하고, 그 함수는 각 플롯의 시맨틱 매핑을 수정할 수 있는 표준화된 매개변수를 가지며, 추가적인 키워드 인자(keyword arguments)가 아래의 맷플롯립 예술가들에게 전달되어, 훨씬 더 많은 제어를 하게끔 해줍니다. 한 번 플롯을 만드셨다면, 그 속성의 미세 조정을 위해 씨본 API와 맷플롯립 레이어(layer)로 내려가는 방식 모두로 수정을 하실 수 있습니다.
+
+```python
+sns.set_theme(style="ticks", font_scale=1.25)
+g = sns.relplot(
+    data=penguins,
+    x="bill_length_mm", y="bill_depth_mm", hue="body_mass_g",
+    palette="crest", marker="x", s=100,
+)
+g.set_axis_labels("Bill length (mm)", "Bill depth (mm)", labelpad=10)
+g.legend.set_title("Body mass (g)")
+g.figure.set_size_inches(6.5, 4.5)
+g.ax.margins(.15)
+g.despine(trim=True)
+```
+
+![](https://seaborn.pydata.org/_images/introduction_35_0.png)
+
 ### 맷플롯립과의 관계
 
+씨본과 맷플롯립의 통합은, 노트북(notebooks)에서의 탐색적 분석(exploratory analysis), GUI 애플리케이션(applications)에서의 실시간 상호작용, 그리고 수많은 래스터(raster)와 벡터(vector) 형식의 보관(archival) 출력을 포함하는, 맷플롯립이 지원하는 많은 환경들(environments)을 여러분이 사용할 수 있게끔 해줍니다.
+
+여러분이 씨본 함수만 사용하더라도 생산적일 수 있지만, 그래픽을 완전히 사용자 정의로 하시려면 맷플롯립의 개념과 API의 일부 지식을 필요로 할 것입니다. 씨본의 새로운 사용자들을 위한 학습 곡선(learning curve)의 한 국면은, 특정 사용자 정의를 이루기 위해서 맷플롯립 레이어로 내려가야만 할 때를 아는 것일 겁니다. 반면에, 맷플롯립에서 오신 사용자분들은 많은 지식이 이전된다는 것을 알 수 있을 것입니다.
+
+맷플롯립은 포괄적이고 강력한 API를 가지고 있습니다; 피겨의 거의 모든 속성을 원하는 대로 바꿀 수 있습니다. 씨본의 고수준 인터페이스와 맷플롯립의 깊은 사용자 정의 기능 간의 결합이, 여러분이 빠르게 데이터를 탐색하고 [출판 품질(publication quality)](https://github.com/wagnerlabpapers/Waskom_PNAS_2017)의 최종 제품에 맞출 수 있는 그래픽을 생성하도록 해줄 것입니다.
+
 ### 다음 단계
+
+다음에 어디로 갈지에 대한 몇 가지 옵션이 있습니다. 아마도 여러분은 어떻게 [씨본을 설치](../installing)하는지 배우고 싶으실 겁니다. 그게 끝나면, 여러분은 어떤 종류의 그래픽을 씨본이 생성할 수 있는지 더 넓은 감각을 얻기 위해 [예제 갤러리](https://seaborn.pydata.org/examples/index.html)를 돌아보실 수 있습니다. 또는 여러 도구들과, 이 도구들이 설계될 때의 목적에 대한 깊은 논의를 위해서 남은 [사용자 안내와 튜토리얼](../tutorial)을 읽어나가실 수도 있습니다. 생각하고 있는 특정 플롯이 있고 어떻게 만드는지 알고싶으시다면, 각 함수의 매개변수를 문서화하고 사용법을 설명하기 위한 많은 예제를 보여주는, [API 참조](https://seaborn.pydata.org/api.html)를 확인하실 수 있습니다.
