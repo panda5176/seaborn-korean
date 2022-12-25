@@ -37,7 +37,7 @@ import seaborn as sns
 
 씨본은 우리가 이 간단한 예제를 위해 불러와야 하는 유일한 라이브러리입니다. 관습적으로, `sns`라는 줄임말로 불러옵니다.
 
-무대 뒤편에서, 씨본은 플롯을 그리기 위해 맷플롯립(matplotlib)을 사용합니다. 대화형(interactive) 작업을 위해, 주피터/아이파이썬 인터페이스(Jupyter/IPython interface)를 [맷플롯립 모드](https://ipython.readthedocs.io/en/stable/interactive/plotting.html)로 사용하는 것을 추천드리며, 아니라면 플롯을 보고 싶을 때 [`matplotlib.pyplot.show()`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show)를 호출하셔야 할 것입니다.
+화면 뒤에서, 씨본은 플롯을 그리기 위해 맷플롯립(matplotlib)을 사용합니다. 대화형(interactive) 작업을 위해, 주피터/아이파이썬 인터페이스(Jupyter/IPython interface)를 [맷플롯립 모드](https://ipython.readthedocs.io/en/stable/interactive/plotting.html)로 사용하는 것을 추천드리며, 아니라면 플롯을 보고 싶을 때 [`matplotlib.pyplot.show()`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show)를 호출하셔야 할 것입니다.
 
 ```python
 # 기본 테마를 적용합니다
@@ -62,7 +62,7 @@ sns.relplot(
 )
 ```
 
-이 플롯은 tips(팁) 데이터셋의 다섯 개 변수 사이의 관계를 씨본 함수 [`relplot()`](https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)을 한 번 호출하기만 해서 보여줍니다. 우리가 어떻게 변수의 이름만으로 플롯에서 그들의 역할을 제공하는지 주목하세요. 직접 맷플롯립을 사용하는 것과 다르게, 색상 값이나 마커 코드(marker codes)에 대해 플롯 구성요소의 속성(attributes)을 지정해줄 필요가 없었습니다. 무대 뒤편에서, 씨본은 데이터프레임 값에서 맷플롯립이 이해하는 인자(arguments)로의 번역을 처리했습니다. 이 선언적인 접근법은 여러분이 어떻게 맷플롯립을 제어할지에 대한 세부 사항보다는, 대답하고자 하는 질문에 집중할 수 있도록 해줍니다.
+이 플롯은 tips(팁) 데이터셋의 다섯 개 변수 사이의 관계를 씨본 함수 [`relplot()`](https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)을 한 번 호출하기만 해서 보여줍니다. 우리가 어떻게 변수의 이름만으로 플롯에서 그들의 역할을 제공하는지 주목하세요. 직접 맷플롯립을 사용하는 것과 다르게, 색상 값이나 마커 코드(marker codes)에 대해 플롯 구성요소의 속성(attributes)을 지정해줄 필요가 없었습니다. 화면 뒤에서, 씨본은 데이터프레임 값에서 맷플롯립이 이해하는 인자(arguments)로의 번역을 처리했습니다. 이 선언적인 접근법은 여러분이 어떻게 맷플롯립을 제어할지에 대한 세부 사항보다는, 대답하고자 하는 질문에 집중할 수 있도록 해줍니다.
 
 ## 통계 그래픽을 위한 고수준 API
 
